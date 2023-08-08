@@ -37,8 +37,11 @@ void onFirstStartOrReset() {
 }
 
 void numberbutton() {
-  //
+  // Flash the value on the LED screen
+  flashValueOnScreen(value);
 
+  // Update the currentValue
+  currentValue = value;
 }
 
 void loop() {
