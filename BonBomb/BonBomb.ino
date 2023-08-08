@@ -36,12 +36,17 @@ void onFirstStartOrReset() {
   alarmValue = 0;
 }
 
-void numberbutton() {
+void numberbuttonPressed() {
   // Flash the value on the LED screen
   flashValueOnScreen(value);
 
   // Update the currentValue
   currentValue = value;
+}
+
+void enterbuttonPressed() {
+
+  
 }
 
 void loop() {
