@@ -45,8 +45,21 @@ void numberbuttonPressed() {
 }
 
 void enterbuttonPressed() {
+  // Update current time variable
+  if (currentTab == TAB_CURRENT_TIME)
+} else if (currentTab == TAB_TIMER) {
+  // Update timer value variable
+  timerValue = currentValue;
+  flashValueOnScreen(timerValue);
+} else if (currentTab == TAB_ALARM) {
+  // Update alarm value variable
+  alarmValue = currentvalue;
+  flashValueOnScreen(alarmValue);
+}
 
-  
+void controlButtonPressed() {
+  // On Control Button press
+  onFirstStartOrReset();
 }
 
 void loop() {
