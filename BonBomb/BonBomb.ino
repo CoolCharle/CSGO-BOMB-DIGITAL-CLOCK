@@ -62,6 +62,36 @@ void controlButtonPressed() {
   onFirstStartOrReset();
 }
 
+void cycleButtonPressed() {
+  currentTab = (currentTab + 1) % NUM_TABS;
+}
+
+void timerTimerTick() {
+  if (timerValue > 0) {
+    digitalWrite(ledPin, HIGH); // Turn on the LED
+    delay(500); // Keep the LED on for half a second
+    digitalWrite(ledPin, LOW); // Turn off the LED
+    delay(500);
+    timerValue--;
+  } else {
+    digitalWrite(ledPin, LOW); // Turn off the LED if timerValue reaches 0
+  }
+}
+
+void timerStopwatchTick() {
+  // Stopwatch function
+  // Use the millis() function to keep track of the elapsed time
+  unsigned long elapsedTime = millis() - stopwatchStartTime;
+}
+
+void timerAlarmTick() {
+  if (hour() == alarmValue) {
+    tone(buzzerPin, 1000); // Adjust the frequency as needed
+    delay(1000); // Play the sound for 1 second (adjust as needed)
+    noTone(buzzerPin); // Turn off the buzzer
+  }
+}
+
 void loop() {
   // put your main code here, to run repeatedly:
 
