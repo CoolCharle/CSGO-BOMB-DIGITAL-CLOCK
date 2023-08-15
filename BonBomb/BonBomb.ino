@@ -1,13 +1,21 @@
 // BonBomb Main
 
 // Variables
+const int controlButtonPin = 2;  // Control button pin
+const int cycleButtonPin = 3;    // Cycle button pin
 const int ledPin = 13;
 const int buzzerPin = 9;
+const int NUM_TABS = 4;
 
+int currentTab = 0;
 int currentValue = 0;
 int timerValue = 0;
-unsigned long stopwatchValue = 0;
 int alarmValue = 0;
+unsigned long stopwatchValue = 0;
+
+const unsigned long timerInterval = 1000;  // Timer ticks every 1 second (in milliseconds)
+const unsigned long stopwatchInterval = 100; // Stopwatch updates every 0.1 seconds (in milliseconds)
+const unsigned long alarmCheckInterval = 60000; // Alarm checks every 1 minute (in milliseconds)
 
 void setup() {
   pinMode(ledPin, OUTPUT);
@@ -46,15 +54,17 @@ void numberbuttonPressed() {
 
 void enterbuttonPressed() {
   // Update current time variable
-  if (currentTab == TAB_CURRENT_TIME)
-} else if (currentTab == TAB_TIMER) {
-  // Update timer value variable
-  timerValue = currentValue;
-  flashValueOnScreen(timerValue);
-} else if (currentTab == TAB_ALARM) {
-  // Update alarm value variable
-  alarmValue = currentvalue;
-  flashValueOnScreen(alarmValue);
+  if (currentTab == TAB_CURRENT_TIME) {
+    currentValue = timerValue;
+  } else if (currentTab == TAB_TIMER) {
+    // Update timer value variable
+    timerValue = currentValue;
+    flashValueOnScreen(timerValue);
+  } else if (currentTab == TAB_ALARM) {
+    // Update alarm value variable
+    alarmValue = currentvalue;
+    flashValueOnScreen(alarmValue);
+  }
 }
 
 void controlButtonPressed() {
@@ -62,6 +72,7 @@ void controlButtonPressed() {
   onFirstStartOrReset();
 }
 
+// Switch between modes
 void cycleButtonPressed() {
   currentTab = (currentTab + 1) % NUM_TABS;
 }
@@ -93,6 +104,33 @@ void timerAlarmTick() {
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+  // Check for button presses and handle the corresponding functions
+  if (digitalRead(controlButtonPin) == HIGH) {
+    controlButtonPressed();
+    delay(200); // Add a small delay to debounce the button
+  }
 
+  if (digitalRead(cycleButtonPin) == HIGH) {
+    cycleButtonPressed();
+    delay(200);
+  }
+
+  // Call timerTimerTick, timerStopwatchTick, and timerAlarmTick based on timing requirements
+  unsigned long currentMillis = millis();
+
+  if (currentMillis - previousTimerMillis >= timerInterval) {
+    previousTimerMillis = currentMillis;
+    timerTimerTick();
+  }
+
+  if (currentMillis - previousStopwatchMillis >= stopwatchInterval) {
+    previousStopwatchMillis = currentMillis;
+    timerStopwatchTick();
+  }
+
+  if (currentMillis - previousAlarmMillis >= alarmCheckInterval) {
+    previousAlarmMillis = currentMillis;
+    timerAlarmTick();
+  }
 }
+
